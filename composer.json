@@ -1,0 +1,13 @@
+{
+    "name": "irfantoor/phpbuild",
+    "description": "PHP Build your composer projects from a json file",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Irfan TOOR",
+            "email": "email@irfantoor.com"
+        }
+    ],
+    "require": {}
+}
