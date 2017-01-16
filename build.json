@@ -1,0 +1,67 @@
+{
+	"name": "irfantoor/phpbuild",
+	"version": "0.2",
+	"default": "setup",
+	"basedir": ".",
+	"builddir": "./build",
+	"groups": {
+		"setup": [
+			"clean", 
+			"prepare"
+		],
+		"validate": [
+			"validate_composer_json", 
+			"validate_syntex_php"
+		]
+	},
+	"sections": {
+		"clean": {
+			"echo": "Cleaning ...",
+			"system": [
+				"rm .DS_Store",
+				"rm -r ${builddir}"
+			]
+		},
+		"prepare": {
+			"depends": [
+				"clean"
+			],
+			"fail_on_error": true,
+			"echo": "Preparing ...",
+			"system": [
+				"mkdir ${builddir}"
+			]
+		},
+		"validate_composer_json": {
+			"echo": "Validate composer.json",
+			"fail_on_error": true,
+			"system": [
+				"composer validate --no-check-lock --strict ${basedir}/composer.json"
+			]
+		},
+		"validate_syntex_php": {
+			"echo": "Validate Syntax of PHP files",
+			"fail_on_error": true,
+			"foreach": {
+				"files": [
+					"${basedir}/src/*.php",
+					"${basedir}/src/*/*.php",
+					"${basedir}/src/*/*/*.php",
+					"${basedir}/tests/*.php",
+					"${basedir}/tests/*/*.php"
+				],
+				"commands": {
+					"system": [
+						"php -l ${file}"
+					]
+				}
+			}
+		},
+		"install": {
+			"echo": "Installing ...",
+			"system": [
+				"composer update --no-interaction --no-progress --no-ansi --no-suggest --optimize-autoloader --prefer-stable"
+			]
+		}
+	}
+}
